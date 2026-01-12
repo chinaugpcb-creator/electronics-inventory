@@ -1,0 +1,581 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-CN"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="theme-color" content="#2563eb"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="apple-mobile-web-app-title" content="元器件进销存"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;电子元器件进销存管理系统&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>* { margin: 0; padding: 0; box-sizing: border-box; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 顶部导航栏 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.navbar { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.navbar h1 { font-size: 20px; margin-bottom: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.navbar .subtitle { font-size: 12px; opacity: 0.9; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 统计卡片 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-label { font-size: 12px; color: #64748b; margin-bottom: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-value { font-size: 24px; font-weight: bold; color: #1e293b; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-card.primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-card.primary .stat-label { color: rgba(255,255,255,0.9); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.stat-card.primary .stat-value { color: white; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 标签页导航 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tabs { display: flex; background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 67px; z-index: 99; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab { flex: 1; padding: 15px; text-align: center; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.3s; border-bottom: 3px solid transparent; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab.active { color: #2563eb; border-bottom-color: #2563eb; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 内容区域 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.content { padding: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab-content { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab-content.active { display: block; animation: fadeIn 0.3s; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 表单卡片 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-title { font-size: 16px; font-weight: bold; color: #1e293b; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 表单 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group { margin-bottom: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-input, .form-select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-input:focus, .form-select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 按钮 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary { background: #2563eb; color: white; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary:active { background: #1e40af; transform: scale(0.98); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-success { background: #10b981; color: white; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-success:active { background: #059669; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-danger { background: #ef4444; color: white; padding: 8px 12px; font-size: 13px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-danger:active { background: #dc2626; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-warning { background: #f59e0b; color: white; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 列表 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.list-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-name { font-size: 15px; font-weight: bold; color: #1e293b; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-low { background: #fee2e2; color: #dc2626; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-normal { background: #dbeafe; color: #2563eb; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-high { background: #d1fae5; color: #059669; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 13px; color: #64748b; margin-bottom: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.detail-row { display: flex; justify-content: space-between; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.detail-label { color: #94a3b8; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.detail-value { font-weight: 600; color: #1e293b; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-actions { display: flex; gap: 8px; margin-top: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item-actions button { flex: 1; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 空状态 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.empty { text-align: center; padding: 60px 20px; color: #94a3b8; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.empty-icon { font-size: 48px; margin-bottom: 15px; opacity: 0.5; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 搜索栏 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.search-bar { margin-bottom: 15px; position: relative; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.search-input { width: 100%; padding: 12px 40px 12px 15px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 快捷操作按钮 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.quick-btn { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 2px solid #e2e8f0; cursor: pointer; transition: all 0.2s; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.quick-btn:active { transform: scale(0.95); border-color: #2563eb; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.quick-btn-icon { font-size: 32px; margin-bottom: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.quick-btn-text { font-size: 13px; font-weight: 600; color: #475569; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 历史记录标签 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.record-type { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-right: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.type-in { background: #d1fae5; color: #059669; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.type-out { background: #fee2e2; color: #dc2626; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 响应式 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (min-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.content { max-width: 800px; margin: 0 auto; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.stats { grid-template-columns: repeat(4, 1fr); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- 顶部导航栏 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="navbar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;📦 电子元器件进销存&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="subtitle"&gt;库存管理 · 进销记录 · 数据统计&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- 统计卡片 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stats"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stat-card primary"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-label"&gt;库存总值&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-value" id="totalValue"&gt;¥0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-label"&gt;品种数量&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-value" id="totalItems"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-label"&gt;库存总数&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-value" id="totalStock"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-label"&gt;低库存&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stat-value" id="lowStock" style="color: #ef4444;"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- 标签页导航 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="tab active" onclick="switchTab('inventory')"&gt;📋 库存&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="tab" onclick="switchTab('transaction')"&gt;📊 进销&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="tab" onclick="switchTab('manage')"&gt;⚙️ 管理&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- 内容区域 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 库存管理标签页 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="inventory" class="tab-content active"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="search-bar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" class="search-input" id="searchInput" placeholder="搜索元器件名称、型号..." oninput="searchItems()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="search-icon"&gt;🔍&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="inventoryList"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 进销管理标签页 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="transaction" class="tab-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="quick-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="quick-btn" onclick="showInForm()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="quick-btn-icon"&gt;📥&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="quick-btn-text"&gt;入库登记&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="quick-btn" onclick="showOutForm()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="quick-btn-icon"&gt;📤&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="quick-btn-text"&gt;出库登记&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 入库表单 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card" id="inForm" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;📥 入库登记&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;选择元器件&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;select class="form-select" id="inItemSelect"&gt;&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;入库数量&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="inQuantity" placeholder="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;单价（¥）&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="inPrice" step="0.01" placeholder="0.00"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;供应商&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="inSupplier" placeholder="供应商名称"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;备注&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="inNote" placeholder="选填"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-success" onclick="submitIn()"&gt;✓ 确认入库&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 出库表单 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card" id="outForm" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;📤 出库登记&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;选择元器件&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;select class="form-select" id="outItemSelect"&gt;&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;出库数量&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="outQuantity" placeholder="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;单价（¥）&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="outPrice" step="0.01" placeholder="0.00"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;客户/项目&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="outCustomer" placeholder="客户名称或项目名称"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;备注&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="outNote" placeholder="选填"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-warning" onclick="submitOut()"&gt;✓ 确认出库&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;📜 进销记录&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="recordsList"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 管理标签页 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="manage" class="tab-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;➕ 添加新元器件&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;元器件名称&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="itemName" placeholder="例如：电阻"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;型号/规格&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="itemModel" placeholder="例如：1KΩ 0805"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;类别&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="form-select" id="itemCategory"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;电阻&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;电容&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;电感&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;二极管&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;三极管&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;集成电路&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;连接器&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;其他&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;单位&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="form-select" id="itemUnit"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;个&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;片&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;只&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;套&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option&gt;盒&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;初始库存&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="itemStock" value="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label"&gt;预警库存&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" class="form-input" id="itemMinStock" value="10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label"&gt;存放位置&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" class="form-input" id="itemLocation" placeholder="例如：A区-01号货架"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-primary" onclick="addItem()"&gt;➕ 添加元器件&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let inventory = JSON.parse(localStorage.getItem('electronics_inventory') || '[]');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let records = JSON.parse(localStorage.getItem('electronics_records') || '[]');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function save() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('electronics_inventory', JSON.stringify(inventory));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('electronics_records', JSON.stringify(records));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updateStats();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderInventory();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderRecords();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updateSelects();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function switchTab(tab) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab').forEach(t =&gt; t.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab-content').forEach(c =&gt; c.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>event.target.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById(tab).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateStats() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const totalValue = inventory.reduce((sum, item) =&gt; sum + (item.stock * (item.lastPrice || 0)), 0);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const totalItems = inventory.length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const totalStock = inventory.reduce((sum, item) =&gt; sum + item.stock, 0);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const lowStock = inventory.filter(item =&gt; item.stock &lt;= item.minStock).length;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('totalValue').textContent = '¥' + totalValue.toFixed(0);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('totalItems').textContent = totalItems;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('totalStock').textContent = totalStock;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('lowStock').textContent = lowStock;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderInventory(filter = '') {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const list = document.getElementById('inventoryList');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const filtered = inventory.filter(item =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>item.name.toLowerCase().includes(filter.toLowerCase()) ||</p>
+<p class="p1"><span class="Apple-converted-space">        </span>item.model.toLowerCase().includes(filter.toLowerCase())</p>
+<p class="p1"><span class="Apple-converted-space">      </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (filtered.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>list.innerHTML = '&lt;div class="empty"&gt;&lt;div class="empty-icon"&gt;📦&lt;/div&gt;&lt;div&gt;暂无库存数据&lt;/div&gt;&lt;/div&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>list.innerHTML = filtered.map(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const stockStatus = item.stock &lt;= item.minStock ? 'low' : item.stock &lt;= item.minStock * 2 ? 'normal' : 'high';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const badgeText = item.stock &lt;= item.minStock ? '库存不足' : '库存正常';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const badgeClass = `badge-${stockStatus}`;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="list-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="item-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="item-name"&gt;${item.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="item-badge ${badgeClass}"&gt;${badgeText}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="font-size:13px; color:#64748b; margin-bottom:8px;"&gt;型号：${item.model} | 类别：${item.category}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="item-details"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-label"&gt;当前库存&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-value"&gt;${item.stock} ${item.unit}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-label"&gt;预警库存&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-value"&gt;${item.minStock} ${item.unit}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-label"&gt;存放位置&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-value"&gt;${item.location || '-'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-label"&gt;库存价值&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="detail-value"&gt;¥${(item.stock * (item.lastPrice || 0)).toFixed(2)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="item-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;button class="btn btn-success" onclick="quickIn(${item.id})"&gt;入库&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;button class="btn btn-warning" onclick="quickOut(${item.id})"&gt;出库&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;button class="btn btn-danger" onclick="deleteItem(${item.id})"&gt;删除&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).join('');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderRecords() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const list = document.getElementById('recordsList');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const sorted = [...records].sort((a, b) =&gt; b.time - a.time).slice(0, 20);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (sorted.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>list.innerHTML = '&lt;div class="empty" style="padding:30px 0;"&gt;&lt;div class="empty-icon"&gt;📜&lt;/div&gt;&lt;div&gt;暂无进销记录&lt;/div&gt;&lt;/div&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>list.innerHTML = sorted.map(record =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="list-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="item-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="record-type type-${record.type === 'in' ? 'in' : 'out'}"&gt;${record.type === 'in' ? '入库' : '出库'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span style="font-size:12px; color:#94a3b8;"&gt;${new Date(record.time).toLocaleString()}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="font-size:14px; font-weight:600; color:#1e293b; margin:8px 0;"&gt;${record.itemName}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="item-details"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-label"&gt;数量&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-value"&gt;${record.quantity} ${record.unit}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-label"&gt;单价&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-value"&gt;¥${record.price.toFixed(2)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-label"&gt;${record.type === 'in' ? '供应商' : '客户'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-value"&gt;${record.party}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-label"&gt;总额&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="detail-value" style="color:#2563eb;"&gt;¥${(record.quantity * record.price).toFixed(2)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${record.note ? `&lt;div style="font-size:12px; color:#64748b; margin-top:8px;"&gt;备注：${record.note}&lt;/div&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`).join('');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateSelects() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const inSelect = document.getElementById('inItemSelect');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const outSelect = document.getElementById('outItemSelect');</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const options = inventory.map(item =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>`&lt;option value="${item.id}"&gt;${item.name} - ${item.model} (库存:${item.stock})&lt;/option&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">      </span>).join('');</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>inSelect.innerHTML = '&lt;option value=""&gt;请选择元器件&lt;/option&gt;' + options;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>outSelect.innerHTML = '&lt;option value=""&gt;请选择元器件&lt;/option&gt;' + options;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function addItem() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const name = document.getElementById('itemName').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const model = document.getElementById('itemModel').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const category = document.getElementById('itemCategory').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const unit = document.getElementById('itemUnit').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const stock = parseInt(document.getElementById('itemStock').value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const minStock = parseInt(document.getElementById('itemMinStock').value) || 10;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const location = document.getElementById('itemLocation').value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!name || !model) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('请填写元器件名称和型号');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>inventory.push({</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>name, model, category, unit, stock, minStock, location,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lastPrice: 0,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>createTime: Date.now()</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('itemName').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('itemModel').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('itemLocation').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('itemStock').value = '0';</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert('添加成功！');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>switchTab('inventory');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab')[0].click();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showInForm() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inForm').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outForm').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showOutForm() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inForm').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outForm').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function submitIn() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const itemId = parseInt(document.getElementById('inItemSelect').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const quantity = parseInt(document.getElementById('inQuantity').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const price = parseFloat(document.getElementById('inPrice').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const supplier = document.getElementById('inSupplier').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const note = document.getElementById('inNote').value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!itemId || !quantity || !price || !supplier) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('请填写完整信息');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const item = inventory.find(i =&gt; i.id === itemId);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>item.stock += quantity;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>item.lastPrice = price;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>records.push({</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>type: 'in',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>itemId, itemName: item.name,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>quantity, price, unit: item.unit,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>party: supplier, note,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>time: Date.now()</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inQuantity').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inPrice').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inSupplier').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inNote').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inForm').style.display = 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert('入库成功！');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function submitOut() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const itemId = parseInt(document.getElementById('outItemSelect').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const quantity = parseInt(document.getElementById('outQuantity').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const price = parseFloat(document.getElementById('outPrice').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const customer = document.getElementById('outCustomer').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const note = document.getElementById('outNote').value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!itemId || !quantity || !price || !customer) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('请填写完整信息');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const item = inventory.find(i =&gt; i.id === itemId);</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (item.stock &lt; quantity) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('库存不足！当前库存：' + item.stock);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>item.stock -= quantity;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>records.push({</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>type: 'out',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>itemId, itemName: item.name,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>quantity, price, unit: item.unit,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>party: customer, note,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>time: Date.now()</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outQuantity').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outPrice').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outCustomer').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outNote').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outForm').style.display = 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert('出库成功！');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function quickIn(id) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>switchTab('transaction');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab')[1].click();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>showInForm();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('inItemSelect').value = id;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function quickOut(id) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>switchTab('transaction');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab')[1].click();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>showOutForm();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('outItemSelect').value = id;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function deleteItem(id) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (confirm('确定删除这个元器件吗？相关的进销记录也会被删除。')) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>inventory = inventory.filter(item =&gt; item.id !== id);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>records = records.filter(record =&gt; record.itemId !== id);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function searchItems() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const keyword = document.getElementById('searchInput').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderInventory(keyword);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 初始化</p>
+<p class="p1"><span class="Apple-converted-space">    </span>updateStats();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderInventory();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderRecords();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>updateSelects();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
